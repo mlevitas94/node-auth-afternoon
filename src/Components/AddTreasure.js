@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 
 export default class AddTreasure extends Component {
   constructor() {
@@ -14,6 +15,13 @@ export default class AddTreasure extends Component {
 
   addTreasure() {
     // post to add treasure
+    let {treasureURL}=this.state
+    Axios.post(`/api/treasure/user`,{treasureURL}).then((res)=>{
+      this.props.addMyTreasure(res.data)
+      this.setState({
+        treasureURL:''
+      })
+    })
 
     }
 
@@ -21,7 +29,7 @@ export default class AddTreasure extends Component {
     return (
       <div className="addTreasure">
         <input type="text" placeholder="Add image URL" onChange={this.handleInput} value={this.state.treasureURL} />
-        <button onClick={() => {}}>Add</button>
+        <button onClick={() => {this.addTreasure()}}>Add</button>
       </div>
     );
   }
